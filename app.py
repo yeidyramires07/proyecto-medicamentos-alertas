@@ -49,11 +49,39 @@ def sin_tilde(t):
     t = unicodedata.normalize("NFKD", str(t))
     return "".join(c for c in t if not unicodedata.combining(c))
 
-@st.cache_data
-def cargar():
-    return pd.read_csv("contratos_publicar.csv", encoding="utf-8-sig", low_memory=False)
+def credencial(nombre):
+    try:
+        return str(st.secrets[nombre])
+    except Exception:
+        return os.environ.get(nombre)
 
-df = cargar()
+CONSULTA = """SELECT c.id_contrato, e.nombre AS nombre_entidad, d.nombre AS departamento, k.nombre AS categoria,
+c.tipo_de_contrato, c.valor_contrato AS valor_del_contrato, c.saldo_pendiente, c.nivel_alerta,
+c.estado_contrato, c.objeto AS objeto_del_contrato
+FROM contrato c
+JOIN entidad e ON c.id_entidad = e.id_entidad
+JOIN departamento d ON e.id_departamento = d.id_departamento
+JOIN categoria k ON c.id_categoria = k.id_categoria"""
+
+@st.cache_data(ttl=600)
+def cargar():
+    try:
+        import pymysql
+        conexion = pymysql.connect(host=credencial("MYSQL_HOST"), port=int(credencial("MYSQL_PORT")), user=credencial("MYSQL_USER"), password=credencial("MYSQL_PASSWORD"), database=credencial("MYSQL_DB"), ssl={"ca": credencial("MYSQL_CA")}, charset="utf8mb4", connect_timeout=8)
+        cur = conexion.cursor()
+        cur.execute(CONSULTA)
+        filas = cur.fetchall()
+        columnas = [c[0] for c in cur.description]
+        conexion.close()
+        datos = pd.DataFrame(filas, columns=columnas)
+        datos["valor_del_contrato"] = datos["valor_del_contrato"].astype(float)
+        datos["saldo_pendiente"] = datos["saldo_pendiente"].astype(float)
+        return datos, "MySQL (Aiven)"
+    except Exception:
+        datos = pd.read_csv("contratos_publicar.csv", encoding="utf-8-sig", low_memory=False)
+        return datos, "CSV de respaldo"
+
+df, fuente = cargar()
 
 st.markdown(
     "<div style='background:linear-gradient(90deg,#0f766e,#0891b2);padding:22px 28px;border-radius:14px;color:white;'>"
@@ -77,6 +105,7 @@ if cats:
 if niveles:
     d = d[d["nivel_alerta"].isin(niveles)]
 
+st.sidebar.caption("Fuente de datos: " + fuente)
 st.sidebar.caption("Contratos en la base: " + f"{len(df):,}" + " | con los filtros: " + f"{len(d):,}")
 
 tab_res, tab_mapa, tab_cont, tab_alert, tab_rend, tab_red = st.tabs(["Resumen", "Mapa", "Contratos", "Alertas", "Rendimiento", "Red"])
