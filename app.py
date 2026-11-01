@@ -1,0 +1,144 @@
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import unicodedata
+import os
+import time
+from datetime import datetime
+from enviar_telegram import enviar_telegram
+
+st.set_page_config(page_title="Alertas de medicamentos", layout="wide")
+
+COORD = {
+    "Amazonas": (-4.215, -69.94), "Antioquia": (6.244, -75.574), "Arauca": (7.09, -70.76),
+    "Atlantico": (10.964, -74.796), "Bolivar": (10.391, -75.479), "Boyaca": (5.535, -73.367),
+    "Caldas": (5.07, -75.517), "Caqueta": (1.614, -75.606), "Casanare": (5.337, -72.396),
+    "Cauca": (2.444, -76.614), "Cesar": (10.463, -73.253), "Choco": (5.695, -76.661),
+    "Cordoba": (8.75, -75.881), "Cundinamarca": (4.86, -74.03), "Distrito Capital de Bogota": (4.711, -74.072),
+    "Guainia": (3.865, -67.924), "Guaviare": (2.57, -72.64), "Huila": (2.927, -75.282),
+    "La Guajira": (11.544, -72.907), "Magdalena": (11.241, -74.199), "Meta": (4.142, -73.627),
+    "Narino": (1.214, -77.281), "Norte de Santander": (7.894, -72.507), "Putumayo": (1.15, -76.647),
+    "Quindio": (4.534, -75.681), "Risaralda": (4.813, -75.696),
+    "San Andres, Providencia y Santa Catalina": (12.585, -81.701), "Santander": (7.119, -73.122),
+    "Sucre": (9.304, -75.397), "Tolima": (4.438, -75.232), "Valle del Cauca": (3.452, -76.532),
+    "Vaupes": (1.253, -70.234), "Vichada": (6.189, -67.485),
+}
+
+try:
+    os.environ["TELEGRAM_TOKEN"] = st.secrets["TELEGRAM_TOKEN"]
+except Exception:
+    pass
+
+def cargar_suscriptores():
+    try:
+        return [dict(s) for s in st.secrets["suscriptores"]]
+    except Exception:
+        return []
+
+def sin_tilde(t):
+    t = unicodedata.normalize("NFKD", str(t))
+    return "".join(c for c in t if not unicodedata.combining(c))
+
+@st.cache_data
+def cargar():
+    return pd.read_csv("contratos_publicar.csv", encoding="utf-8-sig", low_memory=False)
+
+df = cargar()
+
+st.title("Alertas de contratos de medicamentos en Colombia")
+st.caption("Contratos de medicamentos e insumos medicos | ODS 3: Salud y bienestar")
+
+st.sidebar.header("Filtros")
+deptos = st.sidebar.multiselect("Departamento", sorted(df["departamento"].unique()))
+cats = st.sidebar.multiselect("Categoria", sorted(df["categoria"].unique()))
+niveles = st.sidebar.multiselect("Nivel de alerta", ["Alta", "Media", "Baja", "Sin alerta"])
+
+d = df.copy()
+if deptos:
+    d = d[d["departamento"].isin(deptos)]
+if cats:
+    d = d[d["categoria"].isin(cats)]
+if niveles:
+    d = d[d["nivel_alerta"].isin(niveles)]
+
+c1, c2, c3 = st.columns(3)
+c1.metric("Contratos", f"{len(d):,}")
+c2.metric("Saldo pendiente (millones COP)", f"{d['saldo_pendiente'].sum() / 1e6:,.0f}")
+c3.metric("Alertas altas", f"{(d['nivel_alerta'] == 'Alta').sum():,}")
+
+st.subheader("Mapa de contratos por departamento")
+m = d.groupby("departamento").agg(contratos=("id_contrato", "count"), saldo=("saldo_pendiente", "sum")).reset_index()
+m["clave"] = m["departamento"].apply(sin_tilde)
+m["lat"] = m["clave"].map(lambda k: COORD.get(k, (None, None))[0])
+m["lon"] = m["clave"].map(lambda k: COORD.get(k, (None, None))[1])
+m = m.dropna(subset=["lat"])
+
+if len(m) == 0:
+    st.info("No hay contratos con departamento ubicable en el mapa.")
+else:
+    centro = COORD["Distrito Capital de Bogota"]
+    mx = m["contratos"].max()
+    fig2 = go.Figure()
+    for _, r in m.iterrows():
+        if r["clave"] != "Distrito Capital de Bogota":
+            fig2.add_trace(go.Scattermap(lat=[centro[0], r["lat"]], lon=[centro[1], r["lon"]], mode="lines", line=dict(width=1 + 5 * r["contratos"] / mx, color="rgba(80,80,200,0.5)"), hoverinfo="skip", showlegend=False))
+    fig2.add_trace(go.Scattermap(lat=m["lat"], lon=m["lon"], mode="markers", marker=dict(size=10 + 30 * m["contratos"] / mx, color=m["saldo"] / 1e6, colorscale="YlOrRd", showscale=True, colorbar=dict(title="Saldo (millones)")), text=m["departamento"] + ": " + m["contratos"].astype(str) + " contratos", hoverinfo="text", showlegend=False))
+    fig2.update_layout(map=dict(style="open-street-map", center=dict(lat=4.6, lon=-73.5), zoom=4.3), height=600, margin=dict(l=0, r=0, t=0, b=0))
+    st.plotly_chart(fig2, width="stretch")
+    st.caption("El tamano del circulo indica la cantidad de contratos y el color el saldo pendiente. Las lineas conectan cada departamento con Bogota (el grosor depende de los contratos). Los contratos con departamento 'No Definido' no se ubican en el mapa.")
+
+g = d.groupby("departamento").size().reset_index(name="contratos").sort_values("contratos", ascending=False)
+fig = px.bar(g, x="departamento", y="contratos", title="Contratos por departamento")
+st.plotly_chart(fig, width="stretch")
+
+st.subheader("Contratos filtrados")
+cols = ["nombre_entidad", "departamento", "categoria", "valor_del_contrato", "saldo_pendiente", "nivel_alerta", "estado_contrato", "objeto_del_contrato"]
+st.dataframe(d[cols].sort_values("saldo_pendiente", ascending=False), width="stretch")
+
+st.divider()
+st.subheader("Alertas por Telegram")
+suscriptores = cargar_suscriptores()
+col_a, col_b = st.columns(2)
+tipo = col_a.selectbox("Enviar a", ["Comprador", "EPS", "Farmacia o distribuidor"])
+cuantas = col_b.slider("Cantidad de alertas por persona", 1, 10, 3)
+destinos = [s for s in suscriptores if s.get("rol") == tipo]
+if destinos:
+    st.write("Destinatarios (" + str(len(destinos)) + "): " + ", ".join(s["nombre"] for s in destinos))
+    chat_manual = ""
+else:
+    st.info("No hay personas registradas con este rol. Puedes escribir un chat_id manualmente.")
+    chat_manual = st.text_input("Chat de Telegram (chat_id)", value=os.environ.get("TELEGRAM_CHAT_ID", ""))
+
+prefijos = {"Comprador": "Aviso para comprador", "EPS": "Aviso para EPS", "Farmacia o distribuidor": "Aviso para farmacia o distribuidor"}
+cand = d[d["nivel_alerta"] != "Sin alerta"].sort_values("saldo_pendiente", ascending=False).head(cuantas).copy()
+cand["mensaje"] = prefijos[tipo] + " | " + cand["nivel_alerta"] + ": " + cand["nombre_entidad"].str.title() + " (" + cand["departamento"] + ") - contrato de " + cand["categoria"].str.lower() + " por $" + (cand["valor_del_contrato"] / 1e6).round(1).astype(str) + " millones, saldo pendiente $" + (cand["saldo_pendiente"] / 1e6).round(1).astype(str) + " millones."
+st.dataframe(cand[["departamento", "nivel_alerta", "mensaje"]], width="stretch")
+
+if st.button("Enviar alertas por Telegram"):
+    if len(cand) == 0:
+        st.warning("No hay contratos con alerta para los filtros elegidos.")
+    elif len(destinos) == 0 and chat_manual.strip() == "":
+        st.warning("Escribe un chat_id o registra personas con este rol.")
+    else:
+        lista = destinos if destinos else [{"nombre": "Manual", "rol": tipo, "chat_id": chat_manual.strip()}]
+        filas = []
+        for s in lista:
+            for texto in cand["mensaje"]:
+                try:
+                    resp = enviar_telegram(str(s["chat_id"]), "Hola " + s["nombre"] + ". " + texto)
+                    estado = "enviado" if resp.get("ok") else "error"
+                except Exception:
+                    estado = "error"
+                filas.append({"fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "destinatario": s["nombre"], "rol": tipo, "estado": estado})
+                time.sleep(0.4)
+        st.session_state["registro"] = st.session_state.get("registro", []) + filas
+        ok = sum(1 for f in filas if f["estado"] == "enviado")
+        if ok == len(filas):
+            st.success("Alertas enviadas: %d de %d." % (ok, len(filas)))
+        else:
+            st.warning("Alertas enviadas: %d de %d. Si hay errores, la persona debe abrir el bot y pulsar Iniciar." % (ok, len(filas)))
+
+if "registro" in st.session_state:
+    st.caption("Alertas enviadas en esta sesion")
+    st.dataframe(pd.DataFrame(st.session_state["registro"]).tail(15), width="stretch")
