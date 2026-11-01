@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 import unicodedata
 import os
 import time
+import hmac
 from datetime import datetime
 from enviar_telegram import enviar_telegram
 
@@ -115,8 +116,18 @@ cand = d[d["nivel_alerta"] != "Sin alerta"].sort_values("saldo_pendiente", ascen
 cand["mensaje"] = prefijos[tipo] + " | " + cand["nivel_alerta"] + ": " + cand["nombre_entidad"].str.title() + " (" + cand["departamento"] + ") - contrato de " + cand["categoria"].str.lower() + " por $" + (cand["valor_del_contrato"] / 1e6).round(1).astype(str) + " millones, saldo pendiente $" + (cand["saldo_pendiente"] / 1e6).round(1).astype(str) + " millones."
 st.dataframe(cand[["departamento", "nivel_alerta", "mensaje"]], width="stretch")
 
+try:
+    clave_correcta = str(st.secrets["CLAVE_ENVIO"])
+except Exception:
+    clave_correcta = None
+clave = st.text_input("Clave de envio", type="password")
+
 if st.button("Enviar alertas por Telegram"):
-    if len(cand) == 0:
+    if clave_correcta is None:
+        st.error("La clave de envio no esta configurada en los secretos de la app.")
+    elif not hmac.compare_digest(clave.encode(), clave_correcta.encode()):
+        st.error("Clave incorrecta. Pidela al equipo.")
+    elif len(cand) == 0:
         st.warning("No hay contratos con alerta para los filtros elegidos.")
     elif len(destinos) == 0 and chat_manual.strip() == "":
         st.warning("Escribe un chat_id o registra personas con este rol.")
