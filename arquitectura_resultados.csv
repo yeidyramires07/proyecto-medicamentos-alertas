@@ -1,0 +1,21 @@
+seccion,metrica,valor
+Equipo de pruebas,Nucleos logicos de la CPU,4.0
+Ley de Amdahl: Multiprocessing,Speedup con 2 procesos o nucleos,1.26
+Ley de Amdahl: Multiprocessing,Speedup con 4 procesos o nucleos,1.35
+Ley de Amdahl: Multiprocessing,Speedup con 8 procesos o nucleos,0.89
+Ley de Amdahl: Multiprocessing,Fraccion serial estimada (p=2 y p=4),0.62
+Ley de Amdahl: Multiprocessing,Speedup maximo teorico (1 / fraccion serial),1.61
+Ley de Amdahl: Spark,Speedup con 2 procesos o nucleos,1.45
+Ley de Amdahl: Spark,Speedup con 4 procesos o nucleos,1.41
+Ley de Amdahl: Spark,Fraccion serial estimada (p=2 y p=4),0.5
+Ley de Amdahl: Spark,Speedup maximo teorico (1 / fraccion serial),2.01
+Formato de archivo (100.000 contratos),CSV: tamano en disco (MB),54.3
+Formato de archivo (100.000 contratos),CSV: tiempo de lectura (s),0.51
+Formato de archivo (100.000 contratos),Parquet: tamano en disco (MB),8.9
+Formato de archivo (100.000 contratos),Parquet: tiempo de lectura (s),0.41
+Memoria del DataFrame,Antes de optimizar tipos (MB),67.0
+Memoria del DataFrame,Despues de usar tipo category (MB),19.9
+Memoria del DataFrame,Reduccion (%),70.3
+Vectorizacion y memoria contigua (5000000 valores),Suma con bucle de Python (s),1.524
+Vectorizacion y memoria contigua (5000000 valores),Suma con arreglo NumPy contiguo (s),0.007
+Vectorizacion y memoria contigua (5000000 valores),NumPy es mas rapido (veces),217.5
