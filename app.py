@@ -9,7 +9,6 @@ import hmac
 import hashlib
 from datetime import datetime
 from enviar_telegram import enviar_telegram
-import nucleo
 
 st.set_page_config(page_title="Alertas de medicamentos", page_icon="\U0001F48A", layout="wide")
 
@@ -36,11 +35,10 @@ ICONOS = {
     "Otros insumos de salud": "\U0001F4E6",
 }
 
-for _clave in ["TELEGRAM_TOKEN", "MYSQL_HOST", "MYSQL_PORT", "MYSQL_USER", "MYSQL_PASSWORD", "MYSQL_DB", "MYSQL_CA"]:
-    try:
-        os.environ[_clave] = str(st.secrets[_clave])
-    except Exception:
-        pass
+try:
+    os.environ["TELEGRAM_TOKEN"] = st.secrets["TELEGRAM_TOKEN"]
+except Exception:
+    pass
 
 def cargar_suscriptores():
     try:
@@ -52,6 +50,12 @@ def sin_tilde(t):
     t = unicodedata.normalize("NFKD", str(t))
     return "".join(c for c in t if not unicodedata.combining(c))
 
+def credencial(nombre):
+    try:
+        return str(st.secrets[nombre])
+    except Exception:
+        return os.environ.get(nombre)
+
 CONSULTA = """SELECT c.id_contrato, e.nombre AS nombre_entidad, d.nombre AS departamento, k.nombre AS categoria,
 c.tipo_de_contrato, c.valor_contrato AS valor_del_contrato, c.saldo_pendiente, c.nivel_alerta,
 c.estado_contrato, c.objeto AS objeto_del_contrato
@@ -61,7 +65,8 @@ JOIN departamento d ON e.id_departamento = d.id_departamento
 JOIN categoria k ON c.id_categoria = k.id_categoria"""
 
 def abrir_conexion():
-    return nucleo.conectar()
+    import pymysql
+    return pymysql.connect(host=credencial("MYSQL_HOST"), port=int(credencial("MYSQL_PORT")), user=credencial("MYSQL_USER"), password=credencial("MYSQL_PASSWORD"), database=credencial("MYSQL_DB"), ssl={"ca": credencial("MYSQL_CA")}, charset="utf8mb4", connect_timeout=8)
 
 @st.cache_data(ttl=600)
 def cargar():
@@ -102,15 +107,64 @@ def autenticar(login, clave):
     return "ok", {"nombre": fila[0], "rol": fila[2], "departamento": fila[3], "login": login}
 
 
-def autenticar_respaldo(login, clave):
+def calcular_hash_alerta(anterior, fecha_texto, remitente, destinatario, id_contrato, estado, mensaje):
+    base = "|".join([str(anterior), str(fecha_texto), str(remitente), str(destinatario), str(id_contrato), str(estado), str(mensaje)])
+    return hashlib.sha256(base.encode("utf-8")).hexdigest()
+
+def registrar_alertas(registros):
     try:
-        cuentas = [dict(c) for c in st.secrets["respaldo"]]
+        conexion = abrir_conexion()
+        cur = conexion.cursor()
+        cur.execute("SELECT hash_actual FROM alerta_enviada ORDER BY id_alerta DESC LIMIT 1 FOR UPDATE")
+        fila = cur.fetchone()
+        anterior = fila[0] if fila and fila[0] else "0" * 64
+        for r in registros:
+            fecha_texto = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            h = calcular_hash_alerta(anterior, fecha_texto, r["remitente"], r["destinatario"], r["id_contrato"], r["estado"], r["mensaje"])
+            cur.execute("INSERT INTO alerta_enviada (id_contrato, estado, hash_anterior, hash_actual, remitente, destinatario, rol_destino, fecha_texto, mensaje) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)", (r["id_contrato"], r["estado"], anterior, h, r["remitente"], r["destinatario"], r["rol_destino"], fecha_texto, r["mensaje"]))
+            anterior = h
+        conexion.commit()
+        conexion.close()
+        return True
     except Exception:
-        return None
-    for c in cuentas:
-        if c.get("login") == login and verificar_clave(clave, str(c.get("password_hash", ""))):
-            return {"nombre": c.get("nombre", login), "rol": c.get("rol", "Invitado"), "departamento": None, "login": login, "respaldo": True}
-    return None
+        return False
+
+def verificar_cadena():
+    conexion = abrir_conexion()
+    cur = conexion.cursor()
+    cur.execute("SELECT id_alerta, hash_anterior, hash_actual, fecha_texto, remitente, destinatario, id_contrato, estado, mensaje FROM alerta_enviada ORDER BY id_alerta")
+    filas = cur.fetchall()
+    conexion.close()
+    anterior = "0" * 64
+    for f in filas:
+        if f[1] != anterior:
+            return False, f[0], "se rompio el enlace con el registro anterior (falta o se cambio un registro)"
+        if calcular_hash_alerta(f[1], f[3], f[4], f[5], f[6], f[7], f[8]) != f[2]:
+            return False, f[0], "el contenido del registro fue alterado"
+        anterior = f[2]
+    return True, len(filas), anterior
+
+def leer_auditoria():
+    conexion = abrir_conexion()
+    cur = conexion.cursor()
+    cur.execute("SELECT id_alerta, fecha_texto, remitente, destinatario, rol_destino, id_contrato, estado, LEFT(hash_actual, 12) FROM alerta_enviada ORDER BY id_alerta DESC LIMIT 100")
+    filas = cur.fetchall()
+    conexion.close()
+    return pd.DataFrame(filas, columns=["id_alerta", "fecha", "remitente", "destinatario", "rol", "id_contrato", "estado", "huella"])
+
+def leer_alertas_publicas():
+    conexion = abrir_conexion()
+    cur = conexion.cursor()
+    cur.execute("SELECT fecha_texto, rol_destino, estado, mensaje FROM alerta_enviada ORDER BY id_alerta DESC LIMIT 20")
+    filas = cur.fetchall()
+    conexion.close()
+    datos = []
+    for f in filas:
+        texto = str(f[3])
+        if texto.startswith("Hola ") and ". " in texto:
+            texto = texto.split(". ", 1)[1]
+        datos.append({"fecha": f[0], "enviada_a": f[1], "estado": f[2], "mensaje": texto})
+    return pd.DataFrame(datos)
 
 st.markdown(
     "<div style='background:linear-gradient(90deg,#0f766e,#0891b2);padding:22px 28px;border-radius:14px;color:white;'>"
@@ -136,32 +190,29 @@ if "usuario" not in st.session_state:
                 st.session_state["intentos"] = 0
                 st.rerun()
             elif estado == "sin_conexion":
-                cuenta = autenticar_respaldo(login.strip().lower(), clave_ingreso)
-                if cuenta is not None:
-                    st.session_state["usuario"] = cuenta
-                    st.rerun()
-                else:
-                    st.error("No hay conexion con la base de datos y este usuario no es una cuenta de respaldo.")
+                st.warning("La base de datos no esta disponible en este momento. Puedes entrar como invitado (solo lectura).")
             else:
                 st.session_state["intentos"] = st.session_state.get("intentos", 0) + 1
                 if st.session_state["intentos"] >= 5:
                     st.session_state["bloqueo_hasta"] = ahora + 60
                     st.session_state["intentos"] = 0
                 st.error("Usuario o contrasena incorrectos.")
+    st.write("---")
+    st.caption("Sin cuenta: puedes ver los datos, el mapa y las alertas en modo solo lectura.")
+    if st.button("Entrar como invitado (sin contrasena)"):
+        st.session_state["usuario"] = {"nombre": "Invitado", "rol": "Invitado", "departamento": None, "login": "invitado"}
+        st.rerun()
     st.stop()
 
 usuario = st.session_state["usuario"]
 rol = usuario["rol"]
-modo_respaldo = usuario.get("respaldo", False)
-puede_enviar = rol == "Administrador" and not modo_respaldo
+puede_enviar = rol == "Administrador"
 
 df, fuente = cargar()
 if usuario["departamento"] and rol in ("Comprador", "EPS", "Farmacia o distribuidor"):
     df = df[df["departamento"] == usuario["departamento"]].copy()
 
 st.sidebar.markdown("**Sesion:** " + usuario["nombre"] + " (" + rol + ")")
-if modo_respaldo:
-    st.sidebar.warning("Modo respaldo: sin base de datos")
 if usuario["departamento"] and rol in ("Comprador", "EPS", "Farmacia o distribuidor"):
     st.sidebar.caption("Vista limitada a: " + usuario["departamento"])
 if st.sidebar.button("Cerrar sesion"):
@@ -250,12 +301,25 @@ with tab_cont:
     st.download_button("Descargar tabla filtrada (CSV)", tabla.to_csv(index=False).encode("utf-8-sig"), "contratos_filtrados.csv", "text/csv")
 
 with tab_alert:
-    st.subheader("Alertas por Telegram")
-    if not puede_enviar:
-        if modo_respaldo:
-            st.info("Modo respaldo: enviar alertas requiere la base de datos.")
+    st.subheader("Alertas activas")
+    st.caption("Contratos con saldo pendiente alto o medio, segun los filtros del panel izquierdo. Visible para todos los usuarios.")
+    activas = d[d["nivel_alerta"].isin(["Alta", "Media"])].sort_values("saldo_pendiente", ascending=False).head(20)
+    st.dataframe(activas[["nombre_entidad", "departamento", "categoria", "nivel_alerta", "saldo_pendiente"]], width="stretch", hide_index=True)
+
+    st.subheader("Alertas enviadas recientemente")
+    try:
+        recientes = leer_alertas_publicas()
+        if len(recientes) > 0:
+            st.dataframe(recientes, width="stretch", hide_index=True)
         else:
-            st.info("El envio manual es solo para el Administrador. Tu rol: " + rol + ". Las alertas automaticas y las solicitudes se manejan en las otras paginas del menu lateral.")
+            st.caption("Todavia no se han enviado alertas.")
+    except Exception:
+        st.caption("No se pudo leer el historial en este momento.")
+
+    st.divider()
+    st.subheader("Enviar alertas por Telegram")
+    if not puede_enviar:
+        st.info("Solo el Administrador puede enviar alertas. Tu rol: " + rol + ".")
     else:
         suscriptores = cargar_suscriptores()
         col_a, col_b = st.columns(2)
@@ -303,7 +367,7 @@ with tab_alert:
                     st.success("Alertas enviadas: %d de %d." % (ok, len(filas)))
                 else:
                     st.warning("Alertas enviadas: %d de %d. Si hay errores, la persona debe abrir el bot y pulsar Iniciar." % (ok, len(filas)))
-                if nucleo.registrar_alertas(para_auditoria):
+                if registrar_alertas(para_auditoria):
                     st.caption("Registrado en la auditoria con hash SHA-256 encadenado.")
                 else:
                     st.warning("Las alertas se enviaron, pero no se pudieron registrar en la auditoria.")
@@ -315,19 +379,17 @@ with tab_alert:
 
 with tab_aud:
     st.subheader("Auditoria de alertas")
-    if modo_respaldo:
-        st.info("Modo respaldo: la auditoria requiere la base de datos.")
-    elif rol not in ("Administrador", "Auditor"):
+    if rol not in ("Administrador", "Auditor"):
         st.info("Esta seccion es solo para los roles Administrador y Auditor.")
     else:
         st.caption("Cada alerta enviada queda registrada con un hash SHA-256 que incluye el hash del registro anterior. Si alguien cambia o borra un registro, la cadena se rompe y la verificacion lo detecta.")
         try:
-            st.dataframe(pd.DataFrame(nucleo.leer_auditoria()), width="stretch", hide_index=True)
+            st.dataframe(leer_auditoria(), width="stretch", hide_index=True)
         except Exception:
             st.warning("No se pudo leer la auditoria. Revisa la conexion con la base de datos.")
         if st.button("Verificar integridad de la cadena"):
             try:
-                valida, dato, motivo = nucleo.verificar_cadena()
+                valida, dato, motivo = verificar_cadena()
                 if valida:
                     st.success("Cadena integra. Registros verificados: " + str(dato))
                     if dato > 0:
@@ -357,13 +419,15 @@ with tab_rend:
         st.plotly_chart(px.bar(sp, x="Nucleos", y="Speedup", title="Speedup con Spark"), width="stretch")
     st.info("El speedup crece al pasar de 1 a 2 procesos y se estanca con 4. Con 8 procesos en un equipo de 4 nucleos empeora, porque compiten por los mismos nucleos y el costo de repartir los datos supera la ganancia.")
 
-    if os.path.exists("arquitectura_resultados.csv"):
-        st.divider()
-        st.subheader("Arquitectura del computador: Amdahl, formato de archivo, memoria y vectorizacion")
-        arq = pd.read_csv("arquitectura_resultados.csv", encoding="utf-8-sig")
-        for seccion in arq["seccion"].unique():
-            st.markdown("**" + seccion + "**")
-            st.dataframe(arq[arq["seccion"] == seccion][["metrica", "valor"]], width="stretch", hide_index=True)
+    st.subheader("Ley de Amdahl")
+    st.caption("Fraccion serial f = (1/S - 1/p) / (1 - 1/p). El speedup maximo teorico es 1/f, sin importar cuantos nucleos se usen.")
+    filas_amdahl = []
+    for nombre_m, serial_m, tiempos_m in [("Multiprocessing", 8.39, {2: 6.66, 4: 6.22}), ("Spark", 9.19, {2: 6.35, 4: 6.53})]:
+        for p_m, t_m in tiempos_m.items():
+            s_m = serial_m / t_m
+            f_m = (1 / s_m - 1 / p_m) / (1 - 1 / p_m)
+            filas_amdahl.append({"Metodo": nombre_m, "p": p_m, "Speedup": round(s_m, 2), "Fraccion serial": round(f_m, 2), "Speedup maximo teorico": round(1 / f_m, 2)})
+    st.dataframe(pd.DataFrame(filas_amdahl), width="stretch", hide_index=True)
 
 with tab_red:
     st.subheader("Infraestructura de red")
