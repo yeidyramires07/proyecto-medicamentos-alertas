@@ -1,0 +1,206 @@
+id_entidad,nombre,id_departamento,ciudad,orden,rama
+1,ARMADA NACIONAL HOSPITAL NAVAL DE CARTAGENA,5,Cartagena,Nacional,Ejecutivo
+2,C - ESE HMZR - COMPRADOR,10,La Paz,Territorial,Corporación Autónoma
+3,CENTRAL DE URGENCIAS LOUIS PASTEUR E.S.E,23,Melgar,Territorial,Corporación Autónoma
+4,CENTRO DE SALUD BELEN EMPRESA SOCIAL DEL ESTADO.,17,Belén,Territorial,Ejecutivo
+5,CENTRO DE SALUD CON CAMAS CANTAGALLO L.,5,Cantagallo,Territorial,Corporación Autónoma
+6,CENTRO DE SALUD CONSACA E.S.E.,17,Consaca,Territorial,Corporación Autónoma
+7,CENTRO DE SALUD SAN BARTOLOME DE CORDBA ESE,18,No Definido,Territorial,Corporación Autónoma
+8,CENTRO HOSPITAL NUESTRO SEÑOR DE LA DIVINA MISERICORDIA PUERRES E.S.E.,17,Puerres,Territorial,Corporación Autónoma
+9,CLÍNICA GIRÓN ESE,21,Girón,Territorial,Ejecutivo
+10,DEPARTAMENTO DE CUNDINAMARCA- SECRETARIA DE SALUD,13,Bogotá,Territorial,Ejecutivo
+11,DIRECCION DE SANIDAD EJERCITO DISPENSARIO MEDICO YOPAL,8,Yopal,Nacional,Ejecutivo
+12,DIRECCION GENERAL SANIDAD BAS02 1015 BARRANQUILLA,18,No Definido,Nacional,Corporación Autónoma
+13,DIRECCIÓN TERRITORIAL DE SALUD DE CALDAS,7,Manizales,Territorial,Ejecutivo
+14,DISPENSARIO MEDICO DE CALI,24,Cali,Nacional,Corporación Autónoma
+15,E.S.E CENTRO DE SALUD CON CAMAS,4,Palmar De Varela,Territorial,Corporación Autónoma
+16,E.S.E CENTRO DE SALUD HERMANA GERTRUDIS,21,Aguada,Territorial,Ejecutivo
+17,E.S.E CENTRO DE SALUD SAN JOSE DE TOLU VIEJO1,22,Tolú Viejo,Nacional,Ejecutivo
+18,E.S.E CENTRO HOSPITAL LUIS ANTONIO MONTERO,17,Potosí,Territorial,Ejecutivo
+19,E.S.E CLINICA MATERNIDAD RAFAEL CALVO C.,5,Cartagena,Territorial,Corporación Autónoma
+20,E.S.E HOSPITAL ARSENIO REPIZO VANEGAS,14,San Agustín,Territorial,Corporación Autónoma
+21,E.S.E HOSPITAL BAUDILIO ACERO,6,Turmequé,Territorial,Corporación Autónoma
+22,E.S.E HOSPITAL LA MISERICORDIA DE CALARCA-QUINDIO,20,No Definido,Territorial,Corporación Autónoma
+23,E.S.E HOSPITAL LOCAL DE TENERIFE,18,No Definido,Territorial,Ejecutivo
+24,E.S.E HOSPITAL NUESTRA SEÑORA DEL CARMEN DE TABIO,11,Tabio,Territorial,Corporación Autónoma
+25,E.S.E HOSPITAL NUESTRA SEÑORA DEL CARMEN DEL COLEGIO,11,El Colegio,Territorial,Ejecutivo
+26,E.S.E HOSPITAL PRESBITERO LUIS FELIPE ARBELAEZ,2,Alejandría,Territorial,Ejecutivo
+27,E.S.E HOSPITAL SAN JOSE DE ISNOS,14,Isnos,Territorial,Corporación Autónoma
+28,E.S.E HOSPITAL SAN RAFAEL DE CAQUEZA,11,Caqueza,Territorial,Corporación Autónoma
+29,E.S.E HOSPITAL SAN SEBASTIAN DE SURATA,21,Suratá,Territorial,Corporación Autónoma
+30,E.S.E HOSPITAL UNIVERSITARIO DE SANTANDER,21,Bucaramanga,Territorial,Ejecutivo
+31,E.S.E JAIME ALVARADO Y CASTILLA,3,Arauca,Territorial,Ejecutivo
+32,E.S.E. CENTRO DE SALUD SAN JOSE DE ALBAN,17,Albán,Territorial,Ejecutivo
+33,E.S.E. HOSPITAL EL SALVADOR DE UBATE,11,Villa De San Diego De Ubate,Territorial,Ejecutivo
+34,E.S.E. HOSPITAL INTEGRADO SAN JUAN DE CIMITARRA,21,Cimitarra,Territorial,Ejecutivo
+35,E.S.E. HOSPITAL PEDRO NEL CARDONA,2,Arboletes,Territorial,Ejecutivo
+36,E.S.E. HOSPITAL REGIONAL SUR ORIENTAL,19,Chinácota,Territorial,Ejecutivo
+37,E.S.E. HOSPITAL SAN ANTONIO DE NATAGAIMA,18,No Definido,Territorial,Corporación Autónoma
+38,E.S.E. HOSPITAL SAN ANTONIO DEL TEQUENDAMA,11,San Antonio Del Tequendama,Territorial,Ejecutivo
+39,E.S.E. HOSPITAL SAN RAFAEL DE LETICIA,1,Leticia,Territorial,Ejecutivo
+40,E.S.E. HOSPITAL SAN VICENTE DE PAUL DE ARANZAZU,7,Aranzazu,Territorial,Corporación Autónoma
+41,E.S.E. HOSPITAL SANTA ISABEL,2,San Pedro,Territorial,Corporación Autónoma
+42,E.S.E. HOSPITAL SANTANDER HERRERA,15,Pivijay,Territorial,Corporación Autónoma
+43,E.S.E. HOSPITAL ULPIANO TASCON QUINTERO,24,San Pedro,Territorial,Ejecutivo
+44,E.S.E. INSTITUTO DE SALUD DE BUCARAMANGA,21,No Definido,Territorial,Corporación Autónoma
+45,E.S.E. SAN JOSE DE GUAVATA,21,Guavatá,Territorial,Ejecutivo
+46,EMPRESA SOCIAL DE ESTADO CENTRO SALUD DE COMBITA,6,Cómbita,Territorial,Corporación Autónoma
+47,EMPRESA SOCIAL DEL ESTADO BARRANCABERMEJA,18,No Definido,Territorial,Corporación Autónoma
+48,EMPRESA SOCIAL DEL ESTADO BELLOSALUD,2,Bello,Territorial,Corporación Autónoma
+49,EMPRESA SOCIAL DEL ESTADO CAMU SAN RAFAEL DE SAHAGUN,12,Sahagún,Territorial,Corporación Autónoma
+50,EMPRESA SOCIAL DEL ESTADO CENTRO 1 ESE,9,Piendamó,Territorial,Corporación Autónoma
+51,EMPRESA SOCIAL DEL ESTADO CENTRO DE SALUD DE JENESANO,6,Jenesano,Territorial,Ejecutivo
+52,EMPRESA SOCIAL DEL ESTADO CENTRO DE SALUD SAN JUDAS TADEO DEL MUNICIPIO DE TOPAGA,6,Tópaga,Territorial,Corporación Autónoma
+53,EMPRESA SOCIAL DEL ESTADO DEL DEPARTAMENTO DEL META E.S.E,16,Villavicencio,Territorial,Ejecutivo
+54,EMPRESA SOCIAL DEL ESTADO DEL MUNICIPIO DE VILLAVICENCIO,16,Villavicencio,Territorial,Ejecutivo
+55,EMPRESA SOCIAL DEL ESTADO E.S.E HOSPITAL LA MILAGROSA,23,Villarrica,Territorial,Ejecutivo
+56,EMPRESA SOCIAL DEL ESTADO E.S.E. CENTRO DE SALUD COTORRA,12,Cotorra,Territorial,Ejecutivo
+57,EMPRESA SOCIAL DEL ESTADO E.S.E. HOSPITAL REGIONAL NORTE,19,Tibú,Territorial,Corporación Autónoma
+58,EMPRESA SOCIAL DEL ESTADO GUAPI ESE,9,Guapi,Territorial,Corporación Autónoma
+59,EMPRESA SOCIAL DEL ESTADO HOSPITAL ANDRES GIRARDOT  GÜICÁN,6,No Definido,Territorial,Ejecutivo
+60,EMPRESA SOCIAL DEL ESTADO HOSPITAL BENJAMIN BARNEY GASCA,24,Florida,Territorial,Ejecutivo
+61,EMPRESA SOCIAL DEL ESTADO HOSPITAL DEPARTAMENTAL SAGRADO CORAZON DE NORCASIA,7,Norcasia,Territorial,Ejecutivo
+62,EMPRESA SOCIAL DEL ESTADO HOSPITAL EL CARMEN 1,2,Amalfi,Territorial,Ejecutivo
+63,EMPRESA SOCIAL DEL ESTADO HOSPITAL EMIRO QUINTERO CAÑIZARES 12,19,Ocaña,Territorial,Corporación Autónoma
+64,EMPRESA SOCIAL DEL ESTADO HOSPITAL LOCAL DE SAN MARTIN DE LOS  LLANOS,16,San Martín,Nacional,Ejecutivo
+65,EMPRESA SOCIAL DEL ESTADO HOSPITAL NUESTRA SEÑORA DE LA CANDELARIA,18,No Definido,Territorial,Corporación Autónoma
+66,EMPRESA SOCIAL DEL ESTADO HOSPITAL REGIONAL NOROCCIDENTAL,19,Abrego,Territorial,Ejecutivo
+67,EMPRESA SOCIAL DEL ESTADO HOSPITAL SAGRADO CORAZÓN DE JESÚS,6,Socha,Territorial,Ejecutivo
+68,EMPRESA SOCIAL DEL ESTADO HOSPITAL SAN ANTONIO DE ARBELAEZ,18,No Definido,Territorial,Ejecutivo
+69,EMPRESA SOCIAL DEL ESTADO HOSPITAL SAN ANTONIO DE MONTEBELLO,2,No Definido,Territorial,Ejecutivo
+70,EMPRESA SOCIAL DEL ESTADO HOSPITAL SAN ANTONIO DE SOATA,6,Soatá,Territorial,Corporación Autónoma
+71,EMPRESA SOCIAL DEL ESTADO HOSPITAL SAN JUAN DE DIOS DE PAMPLONA,19,Pamplona,Territorial,Corporación Autónoma
+72,EMPRESA SOCIAL DEL ESTADO HOSPITAL SAN PEDRO,18,No Definido,Territorial,Ejecutivo
+73,EMPRESA SOCIAL DEL ESTADO HOSPITAL SAN RAFAEL DE TUNJA,6,Tunja,Territorial,Ejecutivo
+74,EMPRESA SOCIAL DEL ESTADO HOSPITAL SANTA ANA NIVEL I,18,No Definido,Territorial,Ejecutivo
+75,EMPRESA SOCIAL DEL ESTADO HOSPITAL SANTA TERESITA DE PACORA,18,No Definido,Territorial,Corporación Autónoma
+76,EMPRESA SOCIAL DEL ESTADO LOCAL DE LURUACO,4,Luruaco,Territorial,Corporación Autónoma
+77,EMPRESA SOCIAL DEL ESTADO NORTE 1 ESE,9,Buenos Aires,Corporación Autónoma,Corporación Autónoma
+78,EMPRESA SOCIAL DEL ESTADO SALUD PAZ DE RIO,6,Paz De Río,Territorial,Corporación Autónoma
+79,ESE ANDRES CALA PIMENTEL,21,Palmar,Territorial,Ejecutivo
+80,ESE CENTRO DE SALUD DE COLOSO,22,Coloso,Territorial,Corporación Autónoma
+81,ESE CENTRO DE SALUD DE CUCUNUBA,11,Cucunubá,Territorial,Corporación Autónoma
+82,ESE CENTRO DE SALUD DE TOCA,6,Toca,Territorial,Corporación Autónoma
+83,ESE CENTRO DE SALUD DE ZETAQUIRA,6,Zetaquira,Territorial,Corporación Autónoma
+84,ESE CENTRO DE SALUD NUESTRA SEÑORA DE BELEN,6,Belén,Territorial,Ejecutivo
+85,ESE CENTRO DE SALUD SANTA LUCIA ATLÁNTICO,4,Santa Lucía,Territorial,Ejecutivo
+86,ESE HOSPITAL DEPARTAMENTAL SAN ANTONIO DE MARMATO,7,Marmato,Territorial,Corporación Autónoma
+87,ESE HOSPITAL DEPARTAMENTAL SAN CAYETANO,7,Marquetalia,Territorial,Ejecutivo
+88,ESE HOSPITAL FRANCISCO ELADIO BARRERA,2,Don Matías,Territorial,Ejecutivo
+89,ESE HOSPITAL INTEGRADO LANDÁZURI,18,No Definido,Territorial,Corporación Autónoma
+90,ESE HOSPITAL ISMAEL SILVA,11,Silvania,Territorial,Ejecutivo
+91,ESE HOSPITAL JOSE RUDENCIDO LOPEZ PARODI,5,Barranco De Loba,Territorial,Corporación Autónoma
+92,ESE HOSPITAL LAURA PERDOMO DE GARCIA2,14,No Definido,Territorial,Corporación Autónoma
+93,ESE HOSPITAL LOCAL CARTAGENA DE INDIAS.*,5,Cartagena,Territorial,Ejecutivo
+94,ESE HOSPITAL LOCAL DE CALAMAR,5,Calamar,Territorial,Ejecutivo
+95,ESE HOSPITAL LOCAL DE SITIONUEVO,15,Sitionuevo,Territorial,Ejecutivo
+96,ESE HOSPITAL LOCAL MAHATES,18,No Definido,Territorial,Ejecutivo
+97,ESE HOSPITAL LOCAL SABANAS DE SAN ANGEL /,15,Sabanas De San Angel,Territorial,Ejecutivo
+98,ESE HOSPITAL LOCAL SAN MARTIN DE LOBA,5,San Martín De Loba,Territorial,Ejecutivo
+99,ESE HOSPITAL LUISA SANTIAGA MARQUEZ IGUARAN,15,Aracataca,Nacional,Ejecutivo
+100,ESE HOSPITAL MENTAL RUDESINDO SOTO,18,No Definido,Territorial,Corporación Autónoma
+101,ESE HOSPITAL NUESTRA SEÑORA DE LAS MERCEDES FUNZA DEL MUNICIPIO DE FUNZA,11,No Definido,Territorial,Corporación Autónoma
+102,ESE HOSPITAL NUESTRA SEÑORA DEL CARMEN,2,El Bagre,Territorial,Ejecutivo
+103,ESE HOSPITAL PADRE CLEMENTE GIRALDO,18,No Definido,Territorial,Ejecutivo
+104,ESE HOSPITAL PEDRO CLAVER AGUIRRE YEPES,18,No Definido,Territorial,Corporación Autónoma
+105,ESE HOSPITAL REGIONAL SEGUNDO NIVEL DE ATENCION VALLE DE TENZA,6,Guateque,Territorial,Ejecutivo
+106,ESE HOSPITAL SALAZAR DE VILLETA,11,No Definido,Territorial,Corporación Autónoma
+107,ESE HOSPITAL SAN ANTONIO CERRITO,18,No Definido,Territorial,Ejecutivo
+108,ESE HOSPITAL SAN ANTONIO DE PADUA DE SIMITI,5,Simití,Territorial,Corporación Autónoma
+109,ESE HOSPITAL SAN BERNARDO,7,Filadelfia,Territorial,Corporación Autónoma
+110,ESE HOSPITAL SAN FRANCISCO DE ASÍS,2,San Francisco,Territorial,Ejecutivo
+111,ESE HOSPITAL SAN JOSE DE VITERBO,7,Viterbo,Territorial,Ejecutivo
+112,ESE HOSPITAL SAN JUAN DE DIOS DE FLORIDABLANCA,21,Floridablanca,Territorial,Corporación Autónoma
+113,ESE HOSPITAL SAN JUAN DE DIOS DE ITUANGO,2,Ituango,Territorial,Ejecutivo
+114,ESE HOSPITAL SAN ONOFRE,22,San Onofre,Territorial,Corporación Autónoma
+115,ESE HOSPITAL SAN RAFAEL DE FUSAGASUGÁ,11,Fusagasugá,Territorial,Corporación Autónoma
+116,ESE HOSPITAL SAN ROQUE1,2,La Unión,Territorial,Corporación Autónoma
+117,ESE HOSPITAL UNIVERSITARIO JULIO MENDEZ BARRENECHE,15,Santa Marta,Territorial,Ejecutivo
+118,ESE METROSALUD,2,Medellín,Territorial,Corporación Autónoma
+119,ESE MUNICIPAL DE SOACHA JULIO CESAR PEÑALOZA*,11,Soacha,Territorial,Corporación Autónoma
+120,ESE SAN BLAS DE MORROA.,18,No Definido,Territorial,Corporación Autónoma
+121,ESE SANTA BARBARA DE ISCUANDE,17,Santa Bárbara,Territorial,Corporación Autónoma
+122,ESE SANTIAGO DE TUNJA *,6,Tunja,Territorial,Corporación Autónoma
+123,ESE SIACHOQUE,6,Siachoque,Territorial,Ejecutivo
+124,ESE UCATA CHARTA,21,Charta,Territorial,Corporación Autónoma
+125,ESTADO SURORIENTE ESE,9,Popayán,Territorial,Corporación Autónoma
+126,Empresa Social del Estado Hospital Departamental San Simon,7,Victoria,Territorial,Ejecutivo
+127,Empresa Social del Estado Salud Dorada,7,La Dorada,Corporación Autónoma,Corporación Autónoma
+128,FONDO FINANCIERO DISTRITAL DE SALUD.,13,No Definido,Territorial,Ejecutivo
+129,GOBERNACIÓN VALLE DEL CAUCA -SECRETARIA DE SALUD,24,Cali,Territorial,Corporación Autónoma
+130,HMI,4,Soledad,Territorial,Corporación Autónoma
+131,HOSPITAL CARLOS TORRENTE LLANO E.S.E.,18,No Definido,Territorial,Corporación Autónoma
+132,HOSPITAL DE CASTILLA LA NUEVA EMPRESA SOCIAL DEL ESTADO,16,Castilla La Nueva,Territorial,Corporación Autónoma
+133,HOSPITAL DE MANATI ATLANTICO E.S.E,4,Manatí,Nacional,Corporación Autónoma
+134,HOSPITAL DEPARTAMENTAL CENTENARIO ESE,18,No Definido,Territorial,Ejecutivo
+135,HOSPITAL DEPARTAMENTAL DE GRANADA E.S.E,16,Granada,Territorial,Ejecutivo
+136,HOSPITAL DEPARTAMENTAL PSIQUIATRICO UNIVERSITARIO DEL VALLE E.S.E,24,Cali,Territorial,Ejecutivo
+137,HOSPITAL DEPARTAMENTAL SAN JUAN DE DIOS DE PUERTO CARREÑO1,25,Puerto Carreño,Territorial,Corporación Autónoma
+138,HOSPITAL DEPARTAMENTAL SAN JUAN DE DIOS DE RIOSUCIO - CALDAS E.S.E,7,Riosucio,Territorial,Ejecutivo
+139,HOSPITAL DEPARTAMENTAL SAN RAFAEL DE RISARALDA E.S.E.,7,Risaralda,Territorial,Ejecutivo
+140,HOSPITAL DEPARTAMENTAL UNIVERSITARIO SANTA SOFIA DE CALDAS,7,Manizales,Territorial,Ejecutivo
+141,HOSPITAL EL BUEN SAMARITANO E.S.E.,17,La Cruz,Nacional,Corporación Autónoma
+142,HOSPITAL ESPECIALIZADO GRANJA INTEGRAL EMPRESA SOCIAL DEL ESTADO DE LERIDA TOLIMA,23,Lérida,Territorial,Corporación Autónoma
+143,HOSPITAL FEDERICO LLERAS ACOSTA DE IBAGUE TOLIMA - EMPRESA SOCIAL DEL ESTADO,23,Ibagué,Territorial,Legislativo
+144,HOSPITAL GONZALO CONTRERAS E.S.E,24,La Unión,Territorial,Ejecutivo
+145,HOSPITAL LOCAL ALVARO RAMIREZ GONZALEZ EMPRESA SOCIAL DEL ESTADO SAN MARTIN CESAR,10,San Martín,Territorial,Corporación Autónoma
+146,HOSPITAL LOCAL DE GUAMAL PRIMER NIVEL,16,Guamal,Territorial,Corporación Autónoma
+147,HOSPITAL LOCAL PRIMER NIVEL E.S.E. FUENTEDEORO,16,Fuente De Oro,Territorial,Ejecutivo
+148,HOSPITAL LOCAL VITO FASAEL GUTIERREZ PEDRAZA E.S.E,23,Valle De San Juan,Territorial,Ejecutivo
+149,HOSPITAL MUNICIPAL DE ACACIAS E.S.E.,16,Acacías,Territorial,Corporación Autónoma
+150,HOSPITAL NELSON RESTREPO MARTINEZ E.S.E.,18,No Definido,Territorial,Ejecutivo
+151,HOSPITAL NIVEL 1 PUERTO RICO,16,Puerto Rico,Territorial,Corporación Autónoma
+152,HOSPITAL NUESTRA SEÑORA DE LOS SANTOS E.S.E,24,La Victoria,Territorial,Corporación Autónoma
+153,HOSPITAL NUESTRA SEÑORA DE LOURDES E.S.E,23,Ataco,Territorial,Ejecutivo
+154,HOSPITAL REGIONAL DE LA ORINOQUIA EMPRESA SOCIAL DEL ESTADO,8,Yopal,Territorial,Corporación Autónoma
+155,HOSPITAL REGIONAL DE MIRAFLORES E.S.E,6,Miraflores,Territorial,Ejecutivo
+156,HOSPITAL REGIONAL DE MONIQUIRA ESE,6,Moniquirá,Territorial,Ejecutivo
+157,HOSPITAL REGIONAL DE SOGAMOSO E.S.E,6,Sogamoso,Territorial,Ejecutivo
+158,HOSPITAL REINA SOFIA DE ESPAÑA LERIDA TOLIMA,23,Lérida,Territorial,Ejecutivo
+159,HOSPITAL RICARDO ACOSTA,18,No Definido,Territorial,Corporación Autónoma
+160,HOSPITAL SAN ANTONIO E.S.E DE HERVEO TOLIMA,23,Herveo,Territorial,Ejecutivo
+161,HOSPITAL SAN CARLOS ESE SALDAÑA,23,Saldaña,Territorial,Ejecutivo
+162,HOSPITAL SAN JOSE,18,No Definido,Territorial,Corporación Autónoma
+163,HOSPITAL SAN JOSE DE ORTEGA EMPRESA SOCIAL DEL ESTADO NIVEL 1,23,Ortega,Territorial,Ejecutivo
+164,HOSPITAL SAN JUAN BOSCO,10,Bosconia,Nacional,Corporación Autónoma
+165,HOSPITAL SAN JUAN DE DIOS DE HONDA ESE,23,Honda,Territorial,Corporación Autónoma
+166,HOSPITAL SAN JUAN DE DIOS EMPRESA SOCIAL DEL ESTADO DEL MUNICIPIO DE ANZOATEGUI,23,No Definido,Nacional,Ejecutivo
+167,HOSPITAL SAN JUAN DE DIOS ESE  RIONEGRO,2,Rionegro,Territorial,Ejecutivo
+168,HOSPITAL SAN RAFAEL DE EL ESPINAL TOLIMA E.S.E,23,Espinal,Territorial,Ejecutivo
+169,HOSPITAL SAN RAFAEL EL CERRITO,24,El Cerrito,Nacional,Corporación Autónoma
+170,HOSPITAL SANTA ROSA DE LIMA,23,Suárez,Territorial,Ejecutivo
+171,HOSPITAL SANTO DOMINGO EMPRESA SOCIAL DEL ESTADO,18,No Definido,Territorial,Corporación Autónoma
+172,HOSPITAL SUSANA LOPEZ DE VALENCIA,9,Popayán,Territorial,Corporación Autónoma
+173,HOSPITAL TIMBIO ESE,9,Timbío,Territorial,Corporación Autónoma
+174,HOSPITAL UNIVERSITARIO DE SINCELEJO-ESE,22,Sincelejo,Territorial,Corporación Autónoma
+175,HSVPG,18,No Definido,Territorial,Corporación Autónoma
+176,ICBF REGIONAL CORDOBA,12,Montería,Nacional,Ejecutivo
+177,ICBF REGIONAL SUCRE,22,Sincelejo,Nacional,Ejecutivo
+178,IDS,19,Cúcuta,Territorial,Ejecutivo
+179,INSTITUTO DEPARTAMENTAL DE SALUD DE NARIÑO,17,No Definido,Territorial,Ejecutivo
+180,INSTITUTO DISTRITAL PARA LA PROTECCIÓN DE LA NIÑEZ Y LA JUVENTUD - IDIPRON*,13,No Definido,Territorial,Ejecutivo
+181,INSTITUTO NACIONAL DE CANCEROLOGIA ESE,13,Bogotá,Nacional,Ejecutivo
+182,INSTITUTO NACIONAL DE SALUD,13,Bogotá,Nacional,Ejecutivo
+183,INSTITUTO NACIONAL DE VIGILANCIA DE MEDICAMENTOS Y ALIMENTOS //,13,Bogotá,Nacional,Ejecutivo
+184,MINSALUD,13,No Definido,Nacional,Ejecutivo
+185,RED DE SALUD DE LADERA EMPRESA SOCIAL DEL ESTADO,24,Cali,Territorial,Ejecutivo
+186,RED DE SALUD DEL NORTE EMPRESA SOCIAL DEL ESTADO,24,Cali,Territorial,Corporación Autónoma
+187,RED DE SALUD DEL ORIENTE ESE,24,Cali,Territorial,Corporación Autónoma
+188,RED DE SALUD DEL SURORIENTE EMPRESA SOCIAL DEL ESTADO,24,Cali,Territorial,Ejecutivo
+189,RED SALUD CASANARE E.S.E. *,8,Yopal,Territorial,Ejecutivo
+190,REGIONAL DE ASEGURAMIENTO EN SALUD N°6,2,Envigado,Nacional,Ejecutivo
+191,SANTIAGO DE CALI DISTRITO ESPECIAL - SECRETARIA DISTRITAL DE SALUD DE CALI,24,Cali,Territorial,Ejecutivo
+192,SUBRED INTEGRADA DE SERVICIO DE SALUD CENTRO ORIENTE E.S.E 1,13,No Definido,Territorial,Ejecutivo
+193,SUBRED INTEGRADA DE SERVICIOS DE SALUD NORTE E.S.E. (OFICIAL),13,No Definido,Territorial,Corporación Autónoma
+194,SUBRED INTEGRADA DE SERVICIOS DE SALUD SUR E.S.E.**,13,Bogotá,Territorial,Ejecutivo
+195,SUBRED INTEGRADA DE SERVICIOS DE SALUD SUR OCCIDENTE ESE.,13,No Definido,Territorial,Ejecutivo
+196,SUCRE - E.S.E CENTRO DE SALUD SAMPUES,22,Sampués,Territorial,Ejecutivo
+197,UAE FONDO NACIONAL DE ESTUPEFACIENTES,13,Bogotá,Nacional,Ejecutivo
+198,UNIDAD ADMINISTRATIVA ESPECIAL DE SALUD DE ARAUCA,3,No Definido,Territorial,Ejecutivo
+199,UNIDAD DE SALUD DE IBAGUE U.S.I. - E.S.E.,23,No Definido,Territorial,Ejecutivo
+200,UNIDAD EJECUTORA DE SANEAMIENTO DEL VALLE DEL CAUCA,24,Cali,Territorial,Ejecutivo
+201,UNIDAD PRESTADORA DE SALUD ANTIOQUIA,2,Envigado,Nacional,Ejecutivo
+202,UNIDAD PRESTADORA DE SALUD HUILA,14,Neiva,Nacional,Ejecutivo
+203,UNIDAD PRESTADORA DE SALUD META POLICÍA NACIONAL,16,Villavicencio,Nacional,Corporación Autónoma
+204,UNIDAD PRESTADORA DE SALUD SANTANDER,21,Bucaramanga,Nacional,Ejecutivo
+205,empresa social del estado región de salud soacha.,11,Soacha,Territorial,Corporación Autónoma
